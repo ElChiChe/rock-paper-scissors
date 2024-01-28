@@ -9,76 +9,85 @@ const getComputerChoice = choice => {
   return choice[randomChoice];
 }
 
-// let computer_choice = getComputerChoice(choice);
+const score_container = document.querySelector(".score-container");
+const texto = document.querySelector(".texto");
+const reset_btn = document.querySelector(".reset");
 
-const playRound = (userChoice, computerChoice) => {
-  let user_lower = userChoice.toLowerCase();
-  if(user_lower === computerChoice) {
-    return "Tie";
-  }
-  else if(user_lower === "rock" && computerChoice ==="scissors") {
-    user_score++;
-    return "You win";
-  }
-  else if(user_lower === "paper" && computerChoice === "rock") {
-    user_score++;
-    return "You win";
-  }
-  else if(user_lower === "scissors" && computerChoice === "paper") {
-    user_score++;
-    return "You win";
-  }
-  else if(computerChoice === "rock" && user_lower === "scissors") {
-    computer_score++;
-    return "You lose! Rock beats Scissors";
-  }
-  else if(computerChoice === "paper" && user_lower === "rock") {
-    computer_score++;
-    return "You lose! Paper beats Rock";
-  }
-  else if(computerChoice === "scissors" && user_lower === "paper") {
-    computer_score++;
-    return "You lose! Scissors beats Paper";
-  }
+const buttons_container = document.querySelector(".buttons-container");
+const buttons_game = document.querySelectorAll(".buttons-game");
+
+const computer_score_span = document.querySelector(".computer-score-span");
+const user_score_span = document.querySelector(".user-score-span");
+
+const startGame = () => {
+
+buttons_game.forEach(button => {
+  button.addEventListener("click", e => {
+    let userChoice = e.target.textContent.toLowerCase();
+
+    if(userChoice === getComputerChoice(choice)) {
+      texto.textContent = "EMPATE!";1
+    }
+    else if(userChoice === "rock" && getComputerChoice(choice) === "scissors") {
+      user_score++;
+      user_score_span.textContent = user_score;
+      texto.textContent = "GANASTE!";
+    }
+    else if(userChoice === "paper" && getComputerChoice(choice) === "rock") {
+      user_score++;
+      user_score_span.textContent = user_score;
+      texto.textContent = "GANASTE!";
+    }
+    else if(userChoice === "scissors" && getComputerChoice(choice) === "paper") {
+      user_score++;
+      user_score_span.textContent = user_score;
+      texto.textContent = "GANASTE!";
+    }
+    else if(getComputerChoice(choice) === "rock" && userChoice === "scissors") {
+      computer_score++;
+      computer_score_span.textContent = computer_score;
+      texto.textContent = "PERDISTE!! :(";
+    }
+    else if(getComputerChoice(choice) === "paper" && userChoice === "rock") {
+      computer_score++;
+      computer_score_span.textContent = computer_score;
+      texto.textContent = "PERDISTE!! :(";
+    }
+    else if(getComputerChoice(choice) === "scissors" && userChoice === "paper") {
+      computer_score++;
+      computer_score_span.textContent = computer_score;
+      texto.textContent = "PERDISTE!! :(";
+    }
+    endGame(buttons_game);
+  })
+})
 }
 
-const game = () => {
-
-  let result = "";
-
-  for(let i = 1; i <= 5; i++) {
-    let user_choice = prompt("rock, paper, scissors?");
-    result = playRound(user_choice, getComputerChoice(choice));
-    if(user_choice === getComputerChoice(choice)) {
-      i--;
+const endGame = button => {
+  button.forEach(btn => {
+    if(user_score === 5) {
+      btn.setAttribute("disabled", "");
+      texto.textContent = "Ganador: Jugador!! 🧑"
+      reset_btn.style.display = "block";
+      reset_btn.style.background = "green";
     }
+    else if(computer_score === 5) {
+      btn.setAttribute("disabled", "");
+      texto.textContent = "Ganador: Computadora!! 🤖"
+      reset_btn.style.display = "block";
+      reset_btn.style.background = "red";
 
-    console.log(`${result} - ${user_score} - ${computer_score}`);
-
-    if(user_score === 3) {
-      reset();
-      alert("Ganaste!! Presiona F5")
-      return result;
     }
-    else if(computer_score === 3) {
-      reset();
-      alert("Perdiste!! :( Presiona F5");
-      return result;
-    }
-    else {
-      i--;
-    }
-
-  }
-
-  return result;
-}
-
-const reset = () => {
-  user_score = 0;
-  computer_score = 0;
-  play_game.style.display = "none";
+  })
 }
 
 const play_game = document.querySelector(".btn-game");
-play_game.addEventListener("click", game);
+play_game.addEventListener("click", () => {
+  score_container.style.display = "flex";
+  buttons_container.style.display = "flex";
+  play_game.style.display = "none";
+  startGame();
+});
+
+
+reset_btn.addEventListener("click", () => window.location.reload());

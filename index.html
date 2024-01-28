@@ -3,11 +3,28 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>JS</title>
+	<link rel="stylesheet" href="styles.css">
+	<title>Rock-Paper-Scissors</title>
 </head>
 <body style="background: #000;">
 	
-	<button class="btn-game">Play Game!</button>
+	<div class="main">
+
+
+		<button class="btn-game">Play Game</button>
+
+		<div class="score-container">
+			<span class="score-span"><span class="user-score-span">0</span>:<span class="computer-score-span">0</span></span>
+			<span class="texto">Elige una opción!!</span>
+			<button class="reset">Reiniciar juego!!</button>
+		</div>
+
+		<div class="buttons-container">
+			<button class="buttons-game rock">Rock</button>
+			<button class="buttons-game paper">Paper</button>
+			<button class="buttons-game scissors">Scissors</button>
+		</div>
+	</div>
 
 	<script src="script.js"></script>
 </body>
